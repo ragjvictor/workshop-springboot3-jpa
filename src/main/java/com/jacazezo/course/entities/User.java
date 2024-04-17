@@ -1,12 +1,17 @@
 package com.jacazezo.course.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,18 +25,22 @@ public class User implements Serializable {
 	private String name;
 	private String email;
 	private String phone;
-	private String passwhord;
+	private String password;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders = new ArrayList<>();
 
 	public User() {
 	}
 
-	public User(Long id, String name, String email, String phone, String passwhord) {
+	public User(Long id, String name, String email, String phone, String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
-		this.passwhord = passwhord;
+		this.password = password;
 	}
 
 	public Long getId() {
@@ -66,14 +75,18 @@ public class User implements Serializable {
 		this.phone = phone;
 	}
 
-	public String getPasswhord() {
-		return passwhord;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPasswhord(String passwhord) {
-		this.passwhord = passwhord;
+	public void setPasswhord(String password) {
+		this.password = password;
 	}
 
+	public List<Order> getOrders() {
+		return orders;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
